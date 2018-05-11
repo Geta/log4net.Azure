@@ -19,6 +19,7 @@ namespace log4net.Appender
                 sb.AppendFormat("{0}:{1}", entry.Key, entry.Value);
                 sb.AppendLine();
             }
+            
             Properties = sb.ToString();
             Message = e.RenderedMessage + Environment.NewLine + e.GetExceptionString();
             ThreadName = e.ThreadName;

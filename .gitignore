@@ -164,3 +164,4 @@ pip-log.txt
 
 #NuGet exe
 .nuget/NuGet.exe
+/.idea/*

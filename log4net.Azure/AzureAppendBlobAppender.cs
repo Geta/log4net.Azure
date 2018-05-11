@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Text;
-using System.Configuration;
 using System.Globalization;
 using System.Threading.Tasks;
 using log4net.Appender.Extensions;
@@ -9,7 +8,6 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using log4net.Appender.Language;
 using log4net.Core;
-using Microsoft.Azure;
 
 namespace log4net.Appender
 {
@@ -35,10 +33,7 @@ namespace log4net.Appender
                     throw new ApplicationException(Resources.AzureConnectionStringNotSpecified);
                 return _connectionString;
             }
-            set
-            {
-                _connectionString = value;
-            }
+            set => _connectionString = value;
         }
 
         private string _containerName;
@@ -51,10 +46,7 @@ namespace log4net.Appender
                     throw new ApplicationException(Resources.ContainerNameNotSpecified);
                 return _containerName;
             }
-            set
-            {
-                _containerName = value;
-            }
+            set => _containerName = value;
         }
 
         private string _directoryName;
@@ -63,20 +55,18 @@ namespace log4net.Appender
         {
             get
             {
-                if (String.IsNullOrEmpty(_directoryName))
+                if (string.IsNullOrEmpty(_directoryName))
                     throw new ApplicationException(Resources.DirectoryNameNotSpecified);
                 return _directoryName;
             }
-            set
-            {
-                _directoryName = value;
-            }
+            set => _directoryName = value;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Sends the events.
         /// </summary>
-        /// <param name="events">The events that need to be send.</param>
+        /// <param name="events">The events that need to be sent.</param>
         /// <remarks>
         /// <para>
         /// The subclass must override this method to process the buffered events.
@@ -93,9 +83,9 @@ namespace log4net.Appender
 
         private void ProcessEvent(LoggingEvent loggingEvent)
         {
-            CloudAppendBlob appendBlob = _cloudBlobContainer.GetAppendBlobReference(Filename(_directoryName));
+            var appendBlob = _cloudBlobContainer.GetAppendBlobReference(Filename(_directoryName));
             var xml = _lineFeed + loggingEvent.GetXmlString(Layout);
-            using (MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(xml)))
+            using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(xml)))
             {
                 appendBlob.AppendBlock(ms);
             }
@@ -103,10 +93,8 @@ namespace log4net.Appender
 
         private static string Filename(string directoryName)
         {
-            return string.Format("{0}/{1}.entry.log.xml",
-                                 directoryName,
-                                 DateTime.Today.ToString("yyyy_MM_dd",
-                                                                 DateTimeFormatInfo.InvariantInfo));
+            return
+                $"{directoryName}/{DateTime.Today.ToString("yyyy_MM_dd", DateTimeFormatInfo.InvariantInfo)}.entry.log.xml";
         }
 
         /// <summary>

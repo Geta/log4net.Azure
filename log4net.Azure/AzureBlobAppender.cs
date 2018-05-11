@@ -1,5 +1,4 @@
 using System;
-using System.Configuration;
 using System.Globalization;
 using System.Threading.Tasks;
 using log4net.Appender.Extensions;
@@ -7,7 +6,6 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using log4net.Appender.Language;
 using log4net.Core;
-using Microsoft.Azure;
 
 namespace log4net.Appender
 {
@@ -28,14 +26,11 @@ namespace log4net.Appender
                 {
                     return Util.GetConnectionString(ConnectionStringName);
                 }
-                if (String.IsNullOrEmpty(_connectionString))
+                if (string.IsNullOrEmpty(_connectionString))
                     throw new ApplicationException(Resources.AzureConnectionStringNotSpecified);
                 return _connectionString;
             }
-            set
-            {
-                _connectionString = value;
-            }
+            set => _connectionString = value;
         }
 
         private string _containerName;
@@ -48,10 +43,7 @@ namespace log4net.Appender
                     throw new ApplicationException(Resources.ContainerNameNotSpecified);
                 return _containerName;
             }
-            set
-            {
-                _containerName = value;
-            }
+            set => _containerName = value;
         }
 
         private string _directoryName;
@@ -60,16 +52,14 @@ namespace log4net.Appender
         {
             get
             {
-                if (String.IsNullOrEmpty(_directoryName))
+                if (string.IsNullOrEmpty(_directoryName))
                     throw new ApplicationException(Resources.DirectoryNameNotSpecified);
                 return _directoryName;
             }
-            set
-            {
-                _directoryName = value;
-            }
+            set => _directoryName = value;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Sends the events.
         /// </summary>
@@ -86,34 +76,32 @@ namespace log4net.Appender
 
         private void ProcessEvent(LoggingEvent loggingEvent)
         {
-            CloudBlockBlob blob = _cloudBlobContainer.GetBlockBlobReference(Filename(loggingEvent, _directoryName));
+            var blob = _cloudBlobContainer.GetBlockBlobReference(Filename(loggingEvent, _directoryName));
             var xml = loggingEvent.GetXmlString(Layout);
             blob.UploadText(xml);
         }
 
         private static string Filename(LoggingEvent loggingEvent, string directoryName)
         {
-            return string.Format("{0}/{1}.{2}.entry.log.xml",
-                                 directoryName,
-                                 loggingEvent.TimeStamp.ToString("yyyy_MM_dd_HH_mm_ss_fffffff",
-                                                                 DateTimeFormatInfo.InvariantInfo),
-                                 Guid.NewGuid().ToString().ToLower());
+            return
+                $"{directoryName}/{loggingEvent.TimeStamp.ToString("yyyy_MM_dd_HH_mm_ss_fffffff", DateTimeFormatInfo.InvariantInfo)}.{Guid.NewGuid().ToString().ToLower()}.entry.log.xml";
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Initialize the appender based on the options set
         /// </summary>
         /// <remarks>
         /// <para>
-        /// This is part of the <see cref="T:log4net.Core.IOptionHandler"/> delayed object
-        ///             activation scheme. The <see cref="M:log4net.Appender.BufferingAppenderSkeleton.ActivateOptions"/> method must 
+        /// This is part of the <see cref="T:log4net.Core.IOptionHandler" /> delayed object
+        ///             activation scheme. The <see cref="M:log4net.Appender.BufferingAppenderSkeleton.ActivateOptions" /> method must 
         ///             be called on this object after the configuration properties have
-        ///             been set. Until <see cref="M:log4net.Appender.BufferingAppenderSkeleton.ActivateOptions"/> is called this
+        ///             been set. Until <see cref="M:log4net.Appender.BufferingAppenderSkeleton.ActivateOptions" /> is called this
         ///             object is in an undefined state and must not be used. 
         /// </para>
         /// <para>
         /// If any of the configuration properties are modified then 
-        ///             <see cref="M:log4net.Appender.BufferingAppenderSkeleton.ActivateOptions"/> must be called again.
+        ///             <see cref="M:log4net.Appender.BufferingAppenderSkeleton.ActivateOptions" /> must be called again.
         /// </para>
         /// </remarks>
         public override void ActivateOptions()

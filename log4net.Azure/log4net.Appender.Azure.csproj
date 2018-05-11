@@ -84,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AzureAppendBlobAppender.cs" />
+    <Compile Include="AzureAppendTextBlobAppender.cs" />
     <Compile Include="AzureDynamicLoggingEventEntity.cs" />
     <Compile Include="AzureLayoutLoggingEventEntity.cs" />
     <Compile Include="AzureLoggingEventEntity.cs" />
