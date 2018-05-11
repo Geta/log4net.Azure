@@ -61,11 +61,9 @@ Every log Entry is stored as separate XML file.
   the full Azure Storage connection string
 * <b>ConnectionStringName:</b>  
   Name of a connection string specified under connectionString
-* <b>AsText:</b>
-  Write log file as Text file if false XML format will be used.  
 
 ### AppendBlobStorage
-Every log Entry is stored as separate XML file.
+One log file per day with option to choose between file format xml/log
 
     <appender name="AzureAppendBlobAppender" type="log4net.Appender.AzureAppendBlobAppender, log4net.Appender.Azure">
       <param name="ContainerName" value="testloggingblob"/>
@@ -73,6 +71,7 @@ Every log Entry is stored as separate XML file.
       <!-- You can either specify a connection string or use the ConnectionStringName property instead -->
       <param name="ConnectionString" value="UseDevelopmentStorage=true"/>
       <!--<param name="ConnectionStringName" value="GlobalConfigurationString" />-->
+      <param name="AsText" value="true" />
     </appender>
 	
 * <b>ContainerName:</b>  
@@ -83,6 +82,8 @@ Every log Entry is stored as separate XML file.
   the full Azure Storage connection string
 * <b>ConnectionStringName:</b>  
   Name of a connection string specified under connectionString
+  * <b>AsText:</b>
+  Write log file as Text file if false XML format will be used.  
   
 ## View Logs
 
