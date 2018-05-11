@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Text;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using log4net.Appender.Extensions;
 using Microsoft.WindowsAzure.Storage;
@@ -18,6 +19,7 @@ namespace log4net.Appender
         private CloudBlobContainer _cloudBlobContainer;
 
         public string ConnectionStringName { get; set; }
+        public bool AsText { get; set; }
         private string _connectionString;
         private string _lineFeed = "";
 
@@ -74,7 +76,7 @@ namespace log4net.Appender
         /// </remarks>
         protected override void SendBuffer(LoggingEvent[] events)
         {
-            CloudAppendBlob appendBlob = _cloudBlobContainer.GetAppendBlobReference(Filename(_directoryName));
+            var appendBlob = _cloudBlobContainer.GetAppendBlobReference(Filename(_directoryName, AsText));
             if (!appendBlob.Exists()) appendBlob.CreateOrReplace();
             else _lineFeed = Environment.NewLine;
 
@@ -83,17 +85,19 @@ namespace log4net.Appender
 
         private void ProcessEvent(LoggingEvent loggingEvent)
         {
-            var appendBlob = _cloudBlobContainer.GetAppendBlobReference(Filename(_directoryName));
-            var xml = _lineFeed + loggingEvent.GetXmlString(Layout);
+            var appendBlob = _cloudBlobContainer.GetAppendBlobReference(Filename(_directoryName, AsText));
+            var xml = _lineFeed + (AsText ? loggingEvent.RenderedMessage : loggingEvent.GetXmlString(Layout));
             using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(xml)))
             {
                 appendBlob.AppendBlock(ms);
             }
         }
 
-        private static string Filename(string directoryName)
+        private static string Filename(string directoryName, bool asText)
         {
-            return
+            
+            return    
+                asText ? $"{directoryName}/{DateTime.Today.ToString("yyyy_MM_dd", DateTimeFormatInfo.InvariantInfo)}.entry.log" :
                 $"{directoryName}/{DateTime.Today.ToString("yyyy_MM_dd", DateTimeFormatInfo.InvariantInfo)}.entry.log.xml";
         }
 
