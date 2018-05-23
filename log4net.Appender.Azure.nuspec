@@ -6,7 +6,7 @@
         <title>log4net.Appender.Azure</title>
         <authors>$author$</authors>
 		<owners>$author$</owners>
-        <projectUrl>https://github.com/Geta/log4net.Azure/projectUrl>
+        <projectUrl>https://github.com/Geta/log4net.Azure</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>$description$</description>
         <copyright>$copyright$</copyright>
