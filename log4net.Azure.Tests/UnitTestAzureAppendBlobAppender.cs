@@ -13,11 +13,12 @@ namespace log4net.Azure.Tests
         [TestInitialize]
         public void Initialize()
         {
-            _appender = new AzureAppendBlobAppender()
+            _appender = new AzureAppendBlobAppender
                 {
                     ConnectionString = "UseDevelopmentStorage=true",
-                    ContainerName = "testLoggingBlob",
-                    DirectoryName = "testLogging"
+                    ContainerName = "logging",
+                    DirectoryName = "Logs",
+                    AsText = true
                 };
             _appender.ActivateOptions();
         }

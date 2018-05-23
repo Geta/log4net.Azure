@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+    <metadata>
+        <id>$id$</id>
+        <version>$version$</version>
+        <title>log4net.Appender.Azure</title>
+        <authors>$author$</authors>
+		<owners>$author$</owners>
+        <projectUrl>https://github.com/Geta/log4net.Azure/projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>$description$</description>
+        <copyright>$copyright$</copyright>
+		<tags>log4net, Azure, Geta</tags>
+        <dependencies>
+            <group targetFramework=".NETFramework4.5">
+                <dependency id="log4net" version="2.0.3" />
+                <dependency id="WindowsAzure.Storage" version="6.1.0" />
+                <dependency id="Microsoft.WindowsAzure.ConfigurationManager" version="3.1.0" />
+            </group>
+        </dependencies>
+        <frameworkAssemblies>
+            <frameworkAssembly assemblyName="System" targetFramework="" />
+            <frameworkAssembly assemblyName="System.Core" targetFramework="" />
+            <frameworkAssembly assemblyName="System.Data.Services.Client" targetFramework="" />
+        </frameworkAssemblies>
+    </metadata>
+</package>
