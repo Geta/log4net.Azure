@@ -4,12 +4,12 @@
         <id>$id$</id>
         <version>$version$</version>
         <title>log4net.Appender.Azure</title>
-        <authors>$author$</authors>
-		<owners>$author$</owners>
+        <authors>Geta</authors>
+		<owners>Geta</owners>
         <projectUrl>https://github.com/Geta/log4net.Azure</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>$description$</description>
-        <copyright>$copyright$</copyright>
+        <description>log4net appender for azure</description>
+        <copyright>Geta</copyright>
 		<tags>log4net, Azure, Geta</tags>
         <dependencies>
             <group targetFramework=".NETFramework4.5">

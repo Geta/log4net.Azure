@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Reflection;
 
 [assembly: AssemblyTitle("Geta.log4net.Azure")]
+[assembly: Assembly]
 [assembly: AssemblyDescription("Log4net azure appender")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Geta")]
